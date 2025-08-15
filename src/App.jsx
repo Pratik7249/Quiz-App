@@ -15,7 +15,6 @@ function App() {
         <Route path="/" element={<StartPage />} />
         <Route path="/quiz" element={<QuizPage />} />
         <Route path="/report" element={<ReportPage />} />
-        {/* default redirect */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

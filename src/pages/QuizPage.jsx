@@ -11,14 +11,12 @@ import {
 const QuizPage = () => {
   const navigate = useNavigate();
 
-  // State setup
   const [questions, setQuestions] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [visitedFlags, setVisitedFlags] = useState([]);
   const [secondsRemaining, setSecondsRemaining] = useState(1800);
 
-  // Load saved quiz state from localStorage on mount
   useEffect(() => {
     const storedQuestions = JSON.parse(localStorage.getItem("shuffledQuestions"));
     const storedAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
@@ -38,7 +36,6 @@ const QuizPage = () => {
     setSecondsRemaining(storedTime);
   }, [navigate]);
 
-  // Countdown timer logic
   useEffect(() => {
     const tick = setInterval(() => {
       setSecondsRemaining((prev) => {
@@ -51,14 +48,12 @@ const QuizPage = () => {
     return () => clearInterval(tick);
   }, []);
 
-  // Auto-submit when time runs out
   useEffect(() => {
     if (secondsRemaining <= 0) {
       submitQuiz();
     }
   }, [secondsRemaining]);
 
-  // Select an answer for the current question
   const chooseAnswer = (selected) => {
     const updatedAnswers = [...answers];
     updatedAnswers[activeIndex] = selected;
@@ -66,7 +61,6 @@ const QuizPage = () => {
     localStorage.setItem("userAnswers", JSON.stringify(updatedAnswers));
   };
 
-  // Move to the next question
   const goNext = () => {
     if (activeIndex < questions.length - 1) {
       const nextIndex = activeIndex + 1;
@@ -80,7 +74,6 @@ const QuizPage = () => {
     }
   };
 
-  // Move to the previous question
   const goPrevious = () => {
     if (activeIndex > 0) {
       const prevIndex = activeIndex - 1;
@@ -89,7 +82,6 @@ const QuizPage = () => {
     }
   };
 
-  // Jump directly to a specific question
   const jumpTo = (index) => {
     setActiveIndex(index);
     localStorage.setItem("currentIndex", index);
@@ -100,12 +92,10 @@ const QuizPage = () => {
     localStorage.setItem("visited", JSON.stringify(updatedVisited));
   };
 
-  // End quiz and go to report page
   const submitQuiz = () => {
     navigate("/report", { state: { questions, userAnswers: answers } });
   };
 
-  // Format timer into mm:ss
   const formatClock = (totalSecs) => {
     const mins = Math.floor(totalSecs / 60).toString().padStart(2, "0");
     const secs = (totalSecs % 60).toString().padStart(2, "0");
@@ -122,7 +112,6 @@ const QuizPage = () => {
         Time Left: {formatClock(secondsRemaining)}
       </Typography>
 
-      {/* Navigation buttons for all questions */}
       <Grid container spacing={1} mb={2}>
         {questions.map((_, idx) => (
           <Grid item key={idx}>
@@ -154,7 +143,6 @@ const QuizPage = () => {
         ))}
       </Grid>
 
-      {/* Current question */}
       <Paper sx={{ p: 2, mb: 2 }}>
         <Typography
           variant="h6"
@@ -162,7 +150,6 @@ const QuizPage = () => {
         />
       </Paper>
 
-      {/* Answer options */}
       <Box>
         {currentQ.answers.map((option, idx) => (
           <Button
@@ -177,7 +164,6 @@ const QuizPage = () => {
         ))}
       </Box>
 
-      {/* Navigation controls */}
       <Box mt={2} display="flex" gap={2}>
         <Button
           variant="outlined"

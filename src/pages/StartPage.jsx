@@ -39,7 +39,7 @@ const StartPage = () => {
       localStorage.setItem("userAnswers", JSON.stringify(Array(shuffledQuestions.length).fill(null)));
       localStorage.setItem("currentIndex", 0);
       localStorage.setItem("visited", JSON.stringify(Array(shuffledQuestions.length).fill(false)));
-      localStorage.setItem("timeLeft", 1800); // 30 min
+      localStorage.setItem("timeLeft", 1800); 
       localStorage.setItem("userEmail", email);
 
       navigate('/quiz');
